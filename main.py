@@ -5,7 +5,7 @@ import requests
 import boto3
 import argparse
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # Function to install packages if they are not already installed
 def install(package):
