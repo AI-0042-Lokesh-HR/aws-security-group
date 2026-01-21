@@ -27,24 +27,29 @@ def get_public_ip():
         logging.error(f"Error fetching public IP: {e}")
         return None
 
-def load_credentials_from_env(account_id, env_file="val.env"):
-    load_dotenv(env_file)
-    access_key_var = f"AWS_ACCESS_KEY_{account_id}"
-    secret_key_var = f"AWS_SECRET_ACCESS_KEY_{account_id}"
+# def load_credentials_from_env(account_id, env_file="val.env"):
+#     load_dotenv(env_file)
+#     access_key_var = f"AWS_ACCESS_KEY_{account_id}"
+#     secret_key_var = f"AWS_SECRET_ACCESS_KEY_{account_id}"
 
-    access_key = os.getenv(access_key_var)
-    secret_key = os.getenv(secret_key_var)
+#     access_key = os.getenv(access_key_var)
+#     secret_key = os.getenv(secret_key_var)
 
-    if not access_key or not secret_key:
-        raise ValueError(f"Missing AWS credentials for account {account_id}")
+#     if not access_key or not secret_key:
+#         raise ValueError(f"Missing AWS credentials for account {account_id}")
 
-    os.environ['AWS_ACCESS_KEY_ID'] = access_key
-    os.environ['AWS_SECRET_ACCESS_KEY'] = secret_key
-    logging.info(f"✅ Loaded AWS credentials for account {account_id}")
+#     os.environ['AWS_ACCESS_KEY_ID'] = access_key
+#     os.environ['AWS_SECRET_ACCESS_KEY'] = secret_key
+#     logging.info(f"✅ Loaded AWS credentials for account {account_id}")
+
+def get_ec2_client(region):
+ 
+    session = boto3.Session(region_name=region)
+    return session.client("ec2")
 
 def add_ip_to_sg(security_group_id, port, protocol, description, region, to_port=None):
     try:
-        ec2 = boto3.client('ec2', region_name=region)
+        ec2 = get_ec2_client(region)
         public_ip = get_public_ip()
         if not public_ip:
             logging.error("Could not retrieve public IP.")
@@ -68,7 +73,7 @@ def add_ip_to_sg(security_group_id, port, protocol, description, region, to_port
 
 def remove_ip_from_sg(security_group_id, port, protocol, description, region, to_port=None):
     try:
-        ec2 = boto3.client('ec2', region_name=region)
+        ec2 = get_ec2_client(region)
         public_ip = get_public_ip()
         if not public_ip:
             logging.error("Could not retrieve public IP.")
@@ -92,7 +97,7 @@ def remove_ip_from_sg(security_group_id, port, protocol, description, region, to
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Modify AWS Security Group IP rules.')
-    parser.add_argument('--account', required=True, help='Account ID for credentials')
+    # parser.add_argument('--account', required=True, help='Account ID for credentials')
     parser.add_argument('--security-group-id', required=True, help='Security Group ID')
     parser.add_argument('--port', required=True, help='Port to open/close')
     parser.add_argument('--protocol', default='tcp', help='Protocol (default: tcp)')
@@ -105,7 +110,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    load_credentials_from_env(args.account)
+    # load_credentials_from_env(args.account)
 
     if args.action == 'add':
         add_ip_to_sg(args.security_group_id, args.port, args.protocol, args.description, args.region, args.to_port)
