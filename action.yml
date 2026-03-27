@@ -54,28 +54,28 @@ runs:
       pip install boto3 requests
     shell: bash
 
-  - name: Select IAM Role ARN
-    id: select-role
-    run: |
-      case "${{ inputs.account-id }}" in
-        365)
-          echo "ROLE_ARN=${{ secrets.AWS_ROLE_ARN_365 }}" >> $GITHUB_ENV
-          ;;
-        019)
-          echo "ROLE_ARN=${{ secrets.AWS_ROLE_ARN_019 }}" >> $GITHUB_ENV
-          ;;
-        *)
-          echo "Invalid accountid"
-          exit 1
-          ;;
-      esac
-    shell: bash
+  # - name: Select IAM Role ARN
+  #   id: select-role
+  #   run: |
+  #     case "${{ inputs.account-id }}" in
+  #       365)
+  #         echo "ROLE_ARN=${{ secrets.AWS_ROLE_ARN_365 }}" >> $GITHUB_ENV
+  #         ;;
+  #       019)
+  #         echo "ROLE_ARN=${{ secrets.AWS_ROLE_ARN_019 }}" >> $GITHUB_ENV
+  #         ;;
+  #       *)
+  #         echo "Invalid accountid"
+  #         exit 1
+  #         ;;
+  #     esac
+  #   shell: bash
 
-  - name: Configure AWS credentials via OIDC
-    uses: aws-actions/configure-aws-credentials@v6
-    with:
-      role-to-assume: ${{ env.ROLE_ARN }}
-      aws-region: ${{ inputs.aws-region }}
+  # - name: Configure AWS credentials via OIDC
+  #   uses: aws-actions/configure-aws-credentials@v6
+  #   with:
+  #     role-to-assume: ${{ env.ROLE_ARN }}
+  #     aws-region: ${{ inputs.aws-region }}
 
   - name: Run Python script
     run: |
