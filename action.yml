@@ -2,18 +2,18 @@ name: 'AWS Security Group IP Modifier'
 description: 'Add or remove an IP to/from an AWS security group'
 
 inputs:
-  # all-sec:
-  #   required: true
-  #   description: 'All AWS credentials as secrets (e.g., AWS_ACCESS_KEY_900, AWS_SECRET_ACCESS_KEY_900, etc.)'
-  # account-id:
-  #   required: true
-  #   description: 'Account ID to use for AWS keys'
-  # aws-access-key-id:
-  #   required: false
-  #   description: 'AWS Access Key ID'
-  # aws-secret-access-key:
-  #   required: false
-  #   description: 'AWS Secret Access Key'
+  all-sec:
+    required: true
+    description: 'All AWS credentials as secrets (e.g., AWS_ACCESS_KEY_900, AWS_SECRET_ACCESS_KEY_900, etc.)'
+  account-id:
+    required: true
+    description: 'Account ID to use for AWS keys'
+  aws-access-key-id:
+    required: false
+    description: 'AWS Access Key ID'
+  aws-secret-access-key:
+    required: false
+    description: 'AWS Secret Access Key'
 
   aws-region:
     required: true
