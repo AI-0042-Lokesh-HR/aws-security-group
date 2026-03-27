@@ -5,9 +5,9 @@ inputs:
   # all-sec:
   #   required: true
   #   description: 'All AWS credentials as secrets (e.g., AWS_ACCESS_KEY_900, AWS_SECRET_ACCESS_KEY_900, etc.)'
-  account-id:
-    required: true
-    description: 'Account ID to use for AWS keys'
+  # account-id:
+  #   required: true
+  #   description: 'Account ID to use for AWS keys'
   # aws-access-key-id:
   #   required: false
   #   description: 'AWS Access Key ID'
